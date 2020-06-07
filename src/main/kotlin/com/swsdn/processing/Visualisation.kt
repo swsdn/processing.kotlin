@@ -1,6 +1,7 @@
 package com.swsdn.processing
 
 import processing.core.PApplet
+import java.time.zone.ZoneRulesProvider
 
 class Visualisation : PApplet() {
 
@@ -9,6 +10,8 @@ class Visualisation : PApplet() {
             main("com.swsdn.processing.Visualisation")
         }
     }
+
+    var size = 30f
 
     override fun settings() {
         size(600, 600)
@@ -21,9 +24,18 @@ class Visualisation : PApplet() {
 
     override fun draw() {
         background(0)
-        val second = second().toFloat()
-        ellipse(mouseX.toFloat(), mouseY.toFloat(), second, second)
+        ellipse(mouseX.toFloat(), mouseY.toFloat(), size, size)
+    }
 
+    override fun keyPressed() {
+        println("keya code: $keyCode")
+        if (keyCode == RIGHT) {
+            size += 5
+        } else if (keyCode == LEFT) {
+            size -= 5
+        }else if (keyCode == 70) {
+            println("framerate: $frameRate")
+        }
     }
 
 }
