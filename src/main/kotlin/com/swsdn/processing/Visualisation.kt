@@ -26,8 +26,8 @@ class Visualisation : PApplet() {
 
     }
 
+}
 
-
-
-
+fun main() {
+    Visualisation.start()
 }
