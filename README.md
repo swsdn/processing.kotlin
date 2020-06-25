@@ -1,2 +1,2 @@
 # processing.kotlin
-Using processing from kotlin
+Conway's game of life using processing and kotlin
