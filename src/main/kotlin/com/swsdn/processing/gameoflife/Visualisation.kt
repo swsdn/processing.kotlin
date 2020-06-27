@@ -1,23 +1,21 @@
-package com.swsdn.processing
+package com.swsdn.processing.gameoflife
 
 import processing.core.PApplet
 import processing.core.PConstants
-import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.concurrent.schedule
 import kotlin.random.Random
 
 class Visualisation : PApplet() {
 
     companion object {
-        const val CELL_SIZE = 10
-        const val SCREEN_X = 1440
+        const val CELL_SIZE = 4
+        const val SCREEN_X = 1400
         const val SCREEN_Y = 900
         const val GRID_X = SCREEN_X / CELL_SIZE
         const val GRID_Y = SCREEN_Y / CELL_SIZE
 
         fun start() {
-            main("com.swsdn.processing.Visualisation")
+            main("com.swsdn.processing.gameoflife.Visualisation")
         }
     }
 
@@ -34,7 +32,7 @@ class Visualisation : PApplet() {
             if (cells[x][y]) {
                 val xf = x.toFloat() * CELL_SIZE
                 val yf = y.toFloat() * CELL_SIZE
-                draw.invoke(xf, yf, (CELL_SIZE - 3).toFloat())
+                draw.invoke(xf, yf, (CELL_SIZE - 0).toFloat())
             }
         }
 
@@ -47,9 +45,9 @@ class Visualisation : PApplet() {
         }
 
         fun evolve(): Grid {
-            val newCells: MutableList<MutableList<Boolean>> = MutableList(sizeX) { MutableList(sizeY) { false } }
+            val newCells: MutableList<MutableList<Boolean>> = ArrayList(sizeX)
             for (x in 0 until sizeX) {
-                newCells[x] = cells[x].toMutableList()
+                newCells.add(x, cells[x].toMutableList())
                 for (y in 0 until sizeY) {
                     val neighbours = getNeighboursCount(x, y)
                     if (neighbours < 2 || neighbours > 3) {
@@ -82,7 +80,7 @@ class Visualisation : PApplet() {
 
     override fun settings() {
         size(SCREEN_X, SCREEN_Y)
-        Timer().schedule(100, 100) { grid = grid.evolve() }
+//        Timer().schedule(100, 75) { grid = grid.evolve() }
     }
 
     override fun setup() {
@@ -92,6 +90,8 @@ class Visualisation : PApplet() {
     override fun draw() {
         background(0)
         grid.draw { xf, yf, size -> rect(xf, yf, size, size) }
+        grid = grid.evolve()
+//        Thread.sleep(75)
     }
 
     override fun keyPressed() {
